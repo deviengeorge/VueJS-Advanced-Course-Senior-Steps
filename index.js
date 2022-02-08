@@ -1,13 +1,15 @@
-// v-if,
-// v-else-if,
-// v-else,
-// v-bind,
+// Directives
+// v-if
+// v-else-if
+// v-else
+
+// v-bind
 // V-show
 // v-for
 // v-html
 // v-text
-
-// Not Completed v-on
+// v-on,
+// v-model
 
 const app = Vue.createApp({
 	// Private
@@ -18,37 +20,71 @@ const app = Vue.createApp({
 	},
 	data: function () {
 		return {
-			arr: ['ahmed', 'ahmed', 'ahmed', 'ahmed', 'ahmed', 'ahmed', 'ahmed'],
 			person: {
 				age: 20,
 				name: 'Ahmed Khaled',
 				address: 'Cairo',
 			},
-			imgSrc: 'https://via.placeholder.com/350x150',
-			altValue: 'hello Image123',
-			idValue: 'myImg',
+			event1: 'mouseover',
+			emailValue: '',
+			passwordValue: '',
+			descriptionValue: '',
+			ageValue: 0,
+			fruits: [],
 		};
 	},
 	template: `
 		<div>
 			<Header  />
 
-			<button @click="arr[2] = 'mohamed'">Click ME</button>
+			<button @[event1]="logParent" type="submit" class="hello">
+				Click ME
+			</button>
 
-			<p v-text="'<h1>hello</h1>'"></p>
+			<form v-on:submit.prevent>
+				<input v-model.lazy.trim="emailValue" placeholder="Enter your Email" />
+				<br />
+				<input v-model="passwordValue" placeholder="Enter your Password" />
+				<br />
+				<input type="text" v-model="ageValue" placeholder="Enter your Age" />
+				<br />
+				<textarea v-model="descriptionValue" placeholder="Enter your Description"></textarea>
+				<br />
 
-			<p v-html="'<h1>This IS My Wesbite</h1>'"></p>
+				<select v-model="fruits" multiple>
+					<option disabled value="">Please select one</option>
+					<option>apple</option>
+					<option>banana</option>
+				</select>
 
+				<br />
+				<button type="submit">Submit</button>
+				<button @click="reset">Reset</button>
+			</form>
 
-			<Greeting
-				v-bind:name="person.name"
-			/>
-
-			
+			<pre>
+				Login Info:
+				{{ emailValue }} <br/>
+				{{ passwordValue }} <br/>
+				{{ descriptionValue }} <br/>
+				{{ typeof ageValue }} <br/>
+				fruits: {{ fruits }} <br/>
+			</pre>
 
 			<Body></Body>
 		</div>
 	`,
+	methods: {
+		logParent() {
+			console.log('Event fired Parent');
+		},
+		reset() {
+			this.emailValue = '';
+			this.passwordValue = '';
+			this.descriptionValue = '';
+			this.fruits = [];
+		},
+	},
 });
 
 // arr = ["1", "2", "3"]
@@ -74,7 +110,12 @@ app.mount('#app');
 // <img v-bind="{ id: 'hello img id', alt: altValue }" :title="myTitle" :src="imgSrc" />
 
 // V-show
-// <p v-show="false">Hello World With Show</p>
+// <p v-show="true">Hello World With Show</p>
 
 // .innerText = '<p>hello</p>'
 // .innerHTML = '<p>hello</p>'
+
+// AttrOrProp
+// <Greeting :name="person.name" .class=""></Greeting>
+
+// inherent
